@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisitLanka360 - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #2E8B57 0%, #228B22 50%, #32CD32 100%);
+            position: relative;
+        }
+
+        /* Animated Background Elements */
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            animation: float 20s infinite linear;
+        }
+
+        .cloud:before {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+        }
+
+        .cloud1 {
+            width: 100px;
+            height: 40px;
+            top: 20%;
+            animation-duration: 25s;
+        }
+
+        .cloud1:before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud2 {
+            width: 80px;
+            height: 30px;
+            top: 40%;
+            animation-duration: 30s;
+            animation-delay: -10s;
+        }
+
+        .cloud2:before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            left: 15px;
+        }
+
+        .cloud3 {
+            width: 120px;
+            height: 50px;
+            top: 60%;
+            animation-duration: 35s;
+            animation-delay: -20s;
+        }
+
+        .cloud3:before {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 20px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateX(-200px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 200px));
+            }
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: rgba(255, 179, 71, 0.6);
+            border-radius: 50%;
+            animation: floatUp 15s infinite linear;
+        }
+
+        .particle:nth-child(odd) {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Palm Tree Silhouettes */
+        .palm-tree {
+            position: absolute;
+            bottom: 0;
+            width: 60px;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.2);
+            clip-path: polygon(45% 100%, 55% 100%, 52% 20%, 60% 15%, 65% 10%, 70% 5%, 75% 0%, 70% 2%, 65% 7%, 55% 12%, 50% 15%, 45% 12%, 35% 7%, 30% 2%, 25% 0%, 30% 5%, 35% 10%, 40% 15%, 48% 20%);
+            animation: sway 4s ease-in-out infinite;
+        }
+
+        .palm-tree.left {
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .palm-tree.right {
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: rotate(-2deg);
+            }
+            50% {
+                transform: rotate(2deg);
+            }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 2px solid rgba(255, 179, 71, 0.3);
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2E8B57;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #FFB347;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2E8B57;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #FFB347;
+            box-shadow: 0 0 10px rgba(255, 179, 71, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #2E8B57, #228B22);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(46, 139, 87, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .forgot-password {
+            margin-top: 20px;
+            color: #FFB347;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            display: inline-block;
+        }
+
+        .forgot-password:hover {
+            color: #2E8B57;
+            text-decoration: underline;
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 100px;
+        }
+
+        .message.success {
+            background: rgba(46, 139, 87, 0.1);
+            color: #2E8B57;
+            border: 1px solid rgba(46, 139, 87, 0.3);
+        }
+
+        .message.error {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+
+        /* Validation Messages */
+        .validation-message {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .valid {
+            color: #2E8B57;
+        }
+
+        .invalid {
+            color: #dc3545;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .palm-tree {
+                display: none;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+            
+            .form-group input {
+                padding: 12px;
+            }
+            
+            .login-btn {
+                padding: 12px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <!-- Floating Clouds -->
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        
+        <!-- Palm Trees -->
+        <div class="palm-tree left"></div>
+        <div class="palm-tree right"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="login-card">
+            <div class="logo">VisitLanka360</div>
+            <div class="subtitle">Discover the Pearl of the Indian Ocean</div>
+            
+            <div id="message" class="message"></div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username (8 characters exactly)</label>
+                    <input type="text" id="username" name="username" required aria-required="true" 
+                           autocomplete="username" maxlength="8" minlength="8"
+                           pattern="[A-Za-z0-9]{8}" title="Exactly 8 alphanumeric characters">
+                    <div id="usernameValidation" class="validation-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password (must include characters)</label>
+                    <input type="password" id="password" name="password" required aria-required="true" 
+                           autocomplete="current-password" minlength="8"
+                           pattern="^(?=.*[@#$%^&]).*$" title="Must include at least one special character (@#$%^&)">
+                    <div id="passwordValidation" class="validation-message"></div>
+                </div>
+                
+                <button type="submit" class="login-btn" aria-label="Login to your account">
+                    <span>Login to Explore</span>
+                </button>
+            </form>
+            
+            <a href="#" class="forgot-password" aria-label="Forgot password">Forgot your password?</a>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particleContainer = document.querySelector('.bg-animation');
+            
+            for (let i = 0; i < 10; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.setAttribute('aria-hidden', 'true');
+                
+                const size = Math.random() * 8 + 4;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        // Form validation and submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const messageDiv = document.getElementById('message');
+            const loginBtn = document.querySelector('.login-btn');
+            
+            // Clear previous messages
+            messageDiv.className = 'message';
+            messageDiv.textContent = '';
+            
+            // Validate username (exactly 8 characters)
+            if (username.length !== 8) {
+                showMessage('Username must be exactly 8 characters long', 'error');
+                document.getElementById('username').focus();
+                return;
+            }
+            
+            // Validate password (must contain special characters)
+            const specialChars = /[@#$%^&]/;
+            if (!specialChars.test(password)) {
+                showMessage('Password must include at least one special character (@#$%^&)', 'error');
+                document.getElementById('password').focus();
+                return;
+            }
+            
+            if (password.length < 8) {
+                showMessage('Password must be at least 8 characters long', 'error');
+                document.getElementById('password').focus();
+                return;
+            }
+            
+            // Simulate login process
+            const originalText = loginBtn.innerHTML;
+            
+            loginBtn.innerHTML = '<span>Logging in...</span>';
+            loginBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Demo credentials (replace with actual authentication)
+                if (username === 'admin123' && password === 'Test@123') {
+                    showMessage('Welcome to VisitLanka360! Redirecting...', 'success');
+                    setTimeout(() => {
+                        // Redirect to dashboard or main page
+                        alert('Login successful! Redirecting to dashboard...');
+                        // window.location.href = 'dashboard.html';
+                    }, 2000);
+                } else {
+                    showMessage('Invalid username or password. Please try again.', 'error');
+                }
+                
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
+            }, 1500);
+        });
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            
+            setTimeout(() => {
+                messageDiv.classList.add('show');
+            }, 10);
+            
+            if (type === 'error') {
+                setTimeout(() => {
+                    messageDiv.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        // Real-time validation feedback
+        document.getElementById('username').addEventListener('input', function() {
+            const validationMsg = document.getElementById('usernameValidation');
+            if (this.value.length === 8) {
+                validationMsg.textContent = '✓ Valid username';
+                validationMsg.className = 'validation-message valid';
+                validationMsg.style.display = 'block';
+            } else {
+                validationMsg.textContent = `Must be 8 characters (${this.value.length}/8)`;
+                validationMsg.className = 'validation-message invalid';
+                validationMsg.style.display = 'block';
+            }
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            const validationMsg = document.getElementById('passwordValidation');
+            const hasSpecialChar = /[@#$%^&]/.test(this.value);
+            
+            if (this.value.length >= 8 && hasSpecialChar) {
+                validationMsg.textContent = '✓ Valid password';
+                validationMsg.className = 'validation-message valid';
+                validationMsg.style.display = 'block';
+            } else {
+                let msg = `Must be 8+ characters (${this.value.length}/8)`;
+                if (!hasSpecialChar) msg += ' and include @#$%^&';
+                validationMsg.textContent = msg;
+                validationMsg.className = 'validation-message invalid';
+                validationMsg.style.display = 'block';
+            }
+        });
+        
+        // Add input focus effects
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Initialize particles when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Add entrance animation to form elements
+            const formElements = document.querySelectorAll('.form-group, .login-btn, .forgot-password');
+            formElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    element.style.transition = 'all 0.6s ease';
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 500 + (index * 100));
+            });
+            
+            // Focus on username field by default
+            document.getElementById('username').focus();
+        });
+        
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+                const form = document.getElementById('loginForm');
+                const inputs = Array.from(form.querySelectorAll('input'));
+                const currentIndex = inputs.indexOf(e.target);
+                
+                if (currentIndex < inputs.length - 1) {
+                    inputs[currentIndex + 1].focus();
+                    e.preventDefault();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

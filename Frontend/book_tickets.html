@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Tickets - VisitLanka360</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Sri Lankan Flag Colors Animation */
+        @keyframes sriLankanFlag {
+            0% { background-position: -100% 0; }
+            50% { background-position: 100% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .flag-animation {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                #FF6B35 25%, 
+                #FFD23F 50%, 
+                #FF6B35 75%, 
+                transparent 100%);
+            background-size: 200% 100%;
+            animation: sriLankanFlag 1.5s ease-in-out;
+        }
+
+        /* Enhanced Background images with smooth transitions */
+        .bg-sigiriya {
+            background: 
+                linear-gradient(45deg, rgba(255, 107, 53, 0.1), rgba(255, 210, 63, 0.1)),
+                linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.2)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:%2387CEEB;stop-opacity:1" /><stop offset="100%" style="stop-color:%23FFE4B5;stop-opacity:1" /></linearGradient></defs><rect fill="url(%23sky)" width="1200" height="800"/><polygon fill="%23228B22" points="0,800 400,200 800,400 1200,100 1200,800"/><rect fill="%23D2691E" x="350" y="150" width="100" height="200" rx="10"/><circle fill="%23FFD700" cx="200" cy="150" r="80"/></svg>');
+            background-size: cover;
+            background-position: center;
+            animation: backgroundFadeIn 1.2s ease-out;
+        }
+
+        .bg-yala {
+            background: 
+                linear-gradient(45deg, rgba(255, 107, 53, 0.1), rgba(255, 210, 63, 0.1)),
+                linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.2)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="safari" cx="50%" cy="30%" r="70%"><stop offset="0%" style="stop-color:%23FFD700;stop-opacity:1" /><stop offset="100%" style="stop-color:%23DEB887;stop-opacity:1" /></radialGradient></defs><rect fill="url(%23safari)" width="1200" height="800"/><rect fill="%23D2691E" y="600" width="1200" height="200"/><circle fill="%23228B22" cx="300" cy="400" r="100"/><circle fill="%23228B22" cx="900" cy="300" r="80"/><ellipse fill="%23654321" cx="600" cy="500" rx="40" ry="20"/></svg>');
+            background-size: cover;
+            background-position: center;
+            animation: backgroundFadeIn 1.2s ease-out;
+        }
+
+        .bg-train {
+            background: 
+                linear-gradient(45deg, rgba(255, 107, 53, 0.1), rgba(255, 210, 63, 0.1)),
+                linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.2)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="mountain" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:%2387CEEB;stop-opacity:1" /><stop offset="70%" style="stop-color:%23228B22;stop-opacity:1" /></linearGradient></defs><rect fill="url(%23mountain)" width="1200" height="800"/><polygon fill="%23228B22" points="0,500 300,300 600,400 900,250 1200,350 1200,800 0,800"/><rect fill="%23696969" y="380" width="1200" height="20"/><rect fill="%23FF4500" x="200" y="360" width="80" height="40" rx="5"/><rect fill="%23FF4500" x="320" y="360" width="80" height="40" rx="5"/></svg>');
+            background-size: cover;
+            background-position: center;
+            animation: backgroundFadeIn 1.2s ease-out;
+        }
+
+        .bg-ella {
+            background: 
+                linear-gradient(45deg, rgba(255, 107, 53, 0.1), rgba(255, 210, 63, 0.1)),
+                linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.2)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%2344aadd" width="1200" height="800"/><polygon fill="%23228B22" points="0,800 200,400 400,600 600,300 800,500 1000,200 1200,400 1200,800"/><path fill="%238B4513" d="M400,500 Q500,480 600,500 Q700,520 800,500 L800,600 L400,600 Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            animation: backgroundFadeIn 1.2s ease-out;
+        }
+
+        .bg-mirissa {
+            background: 
+                linear-gradient(45deg, rgba(255, 107, 53, 0.1), rgba(255, 210, 63, 0.1)),
+                linear-gradient(135deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.2)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="ocean" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:%2387CEEB;stop-opacity:1" /><stop offset="100%" style="stop-color:%23006994;stop-opacity:1" /></linearGradient></defs><rect fill="url(%23ocean)" width="1200" height="800"/><path fill="%23ffcc00" d="M0,600 Q300,400 600,600 Q900,800 1200,600 L1200,800 L0,800 Z"/><ellipse fill="%23FF6B35" cx="600" cy="650" rx="30" ry="15"/></svg>');
+            background-size: cover;
+            background-position: center;
+            animation: backgroundFadeIn 1.2s ease-out;
+        }
+
+        @keyframes backgroundFadeIn {
+            0% { 
+                opacity: 0;
+                transform: scale(1.1);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Floating elements animation */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-element {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 20%; right: 10%; animation-delay: 1s; }
+        .floating-element:nth-child(3) { bottom: 30%; left: 15%; animation-delay: 2s; }
+        .floating-element:nth-child(4) { bottom: 20%; right: 20%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
+            animation: containerSlideIn 1s ease-out;
+        }
+
+        @keyframes containerSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .header h1 {
+            color: #2ecc71;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); }
+            100% { text-shadow: 2px 2px 20px rgba(46, 204, 113, 0.3); }
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
+            position: relative;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2ecc71;
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .form-control:hover {
+            border-color: #2ecc71;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
+        }
+
+        /* Enhanced Button Animations */
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 10px 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(46, 204, 113, 0.6);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px) scale(1.02);
+            animation: sriLankanPulse 0.6s ease-out;
+        }
+
+        @keyframes sriLankanPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7); }
+            25% { box-shadow: 0 0 0 10px rgba(255, 210, 63, 0.5); }
+            50% { box-shadow: 0 0 0 20px rgba(255, 107, 53, 0.3); }
+            100% { box-shadow: 0 0 0 30px rgba(255, 107, 53, 0); }
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
+            box-shadow: 0 5px 15px rgba(149, 165, 166, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #7f8c8d, #6c7b7d);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(149, 165, 166, 0.6);
+        }
+
+        .btn-secondary:active {
+            animation: resetSpin 0.8s ease-out;
+        }
+
+        @keyframes resetSpin {
+            0% { transform: translateY(-3px) scale(1.05) rotate(0deg); }
+            50% { transform: translateY(-3px) scale(1.05) rotate(180deg); }
+            100% { transform: translateY(-3px) scale(1.05) rotate(360deg); }
+        }
+
+        /* Destination-specific button animations */
+        .btn-safari {
+            animation: safariMove 2s ease-in-out infinite;
+        }
+
+        @keyframes safariMove {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
+        .btn-train {
+            animation: trainMove 3s linear infinite;
+        }
+
+        @keyframes trainMove {
+            0% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            100% { transform: translateX(-10px); }
+        }
+
+        .btn-mountain {
+            animation: mountainClimb 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes mountainClimb {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-5px); }
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 30px;
+            animation: fadeInUp 0.6s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        /* Enhanced Confirmation Animation */
+        .confirmation {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: none;
+            opacity: 0;
+            transform: translateY(-30px) scale(0.8);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(46, 204, 113, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confirmation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(255, 107, 53, 0.1) 40%, 
+                rgba(255, 210, 63, 0.2) 50%, 
+                rgba(255, 107, 53, 0.1) 60%, 
+                transparent 70%);
+            animation: celebrationSweep 2s ease-in-out;
+        }
+
+        @keyframes celebrationSweep {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .confirmation.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            animation: confirmationCelebration 1s ease-out;
+        }
+
+        @keyframes confirmationCelebration {
+            0% { 
+                opacity: 0;
+                transform: translateY(-30px) scale(0.8) rotate(-5deg);
+            }
+            50% { 
+                opacity: 1;
+                transform: translateY(-10px) scale(1.1) rotate(2deg);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+        }
+
+        /* Enhanced Icon Animations */
+        .confirmation-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            animation: iconCelebration 2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes iconCelebration {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg);
+                filter: hue-rotate(0deg);
+            }
+            25% { 
+                transform: scale(1.2) rotate(5deg);
+                filter: hue-rotate(90deg);
+            }
+            50% { 
+                transform: scale(1.1) rotate(-3deg);
+                filter: hue-rotate(180deg);
+            }
+            75% { 
+                transform: scale(1.15) rotate(3deg);
+                filter: hue-rotate(270deg);
+            }
+        }
+
+        /* Ticket Flying Animation */
+        .ticket-animation {
+            position: absolute;
+            font-size: 2rem;
+            animation: ticketFly 2s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes ticketFly {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) translateX(-50px) rotate(45deg) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-20px) translateX(20px) rotate(15deg) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) translateX(100px) rotate(0deg) scale(0.8);
+            }
+        }
+
+        /* Error states with enhanced animations */
+        .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+            animation: errorShake 0.5s ease-in-out;
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .form-control.error {
+            border-color: #e74c3c;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.3);
+            animation: errorPulse 0.5s ease-in-out;
+        }
+
+        @keyframes errorPulse {
+            0% { border-color: #e74c3c; }
+            50% { border-color: #ff6b6b; }
+            100% { border-color: #e74c3c; }
+        }
+
+        /* Loading animation with Sri Lankan theme */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #FFD23F;
+            border-right-color: #FF6B35;
+            animation: sriLankanSpin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes sriLankanSpin {
+            0% { transform: rotate(0deg); border-top-color: #FFD23F; }
+            33% { transform: rotate(120deg); border-top-color: #FF6B35; }
+            66% { transform: rotate(240deg); border-top-color: #2ecc71; }
+            100% { transform: rotate(360deg); border-top-color: #FFD23F; }
+        }
+
+        /* Ripple effect for buttons */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Mobile Responsive Enhancements */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .button-group {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .floating-element {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-control {
+                padding: 12px;
+            }
+
+            .confirmation-icon {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating decorative elements -->
+    <div class="floating-elements">
+        <div class="floating-element">🏛️</div>
+        <div class="floating-element">🐘</div>
+        <div class="floating-element">🌺</div>
+        <div class="floating-element">🥥</div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🎟️ Book Your Adventure</h1>
+            <p>Discover the beauty of Sri Lanka with VisitLanka360</p>
+        </div>
+
+        <form id="bookingForm">
+            <div class="form-group">
+                <label for="destination">🏞️ Select Destination</label>
+                <select id="destination" class="form-control" required>
+                    <option value="">Choose your adventure...</option>
+                    <option value="Sigiriya Rock Fortress">🏰 Sigiriya Rock Fortress</option>
+                    <option value="Temple of the Tooth Relic">🕌 Temple of the Tooth Relic</option>
+                    <option value="Ella & Nine Arches Bridge">🌉 Ella & Nine Arches Bridge</option>
+                    <option value="Yala National Park">🦁 Yala National Park</option>
+                    <option value="Pinnawala Elephant Orphanage">🐘 Pinnawala Elephant Orphanage</option>
+                    <option value="Anuradhapura Ancient City">🏛️ Anuradhapura Ancient City</option>
+                    <option value="Nuwara Eliya & Gregory Lake">⛰️ Nuwara Eliya & Gregory Lake</option>
+                    <option value="Dambulla Cave Temple">🕉️ Dambulla Cave Temple</option>
+                    <option value="Galle Dutch Fort">🏯 Galle Dutch Fort</option>
+                    <option value="Mirissa Beach & Whale Watching">🐋 Mirissa Beach & Whale Watching</option>
+                    <option value="Horton Plains & World's End">🌄 Horton Plains & World's End</option>
+                    <option value="Adam's Peak (Sri Pada)">⛰️ Adam's Peak (Sri Pada)</option>
+                    <option value="Polonnaruwa Ancient City">🏺 Polonnaruwa Ancient City</option>
+                    <option value="Udawalawe National Park">🐃 Udawalawe National Park</option>
+                    <option value="Ravana Falls">💧 Ravana Falls</option>
+                    <option value="Arugam Bay">🏄 Arugam Bay</option>
+                    <option value="Jaffna Fort & Nallur Temple">🛕 Jaffna Fort & Nallur Temple</option>
+                    <option value="Trincomalee & Pigeon Island">🏝️ Trincomalee & Pigeon Island</option>
+                    <option value="Kalpitiya (Dolphin Watching)">🐬 Kalpitiya (Dolphin Watching)</option>
+                    <option value="Bentota (Water Sports & Safari)">🚤 Bentota (Water Sports & Safari)</option>
+                </select>
+                <div class="error" id="destinationError">Please select a destination</div>
+            </div>
+
+            <div class="form-group">
+                <label for="travelDate">📅 Travel Date</label>
+                <input type="date" id="travelDate" class="form-control" required>
+                <div class="error" id="dateError">Please select a travel date</div>
+            </div>
+
+            <div class="form-group">
+                <label for="tickets">👥 Number of Tickets</label>
+                <input type="number" id="tickets" class="form-control" min="1" max="10" placeholder="Enter number of tickets" required>
+                <div class="error" id="ticketsError">Please enter a valid number of tickets (1 or more)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="creditCard">💳 Credit Card Number</label>
+                <input type="text" id="creditCard" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                <div class="error" id="cardError">Please enter a valid 16-digit credit card number</div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary" id="confirmBtn">
+                    ✅ Confirm Booking
+                </button>
+                <button type="button" class="btn btn-secondary" id="resetBtn">
+                    🔄 Reset Form
+                </button>
+            </div>
+        </form>
+
+        <div id="confirmation" class="confirmation">
+            <div class="confirmation-icon">🎉</div>
+            <div id="confirmationMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        // Get form elements
+        const form = document.getElementById('bookingForm');
+        const destinationSelect = document.getElementById('destination');
+        const travelDateInput = document.getElementById('travelDate');
+        const ticketsInput = document.getElementById('tickets');
+        const creditCardInput = document.getElementById('creditCard');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const confirmation = document.getElementById('confirmation');
+        const confirmationMessage = document.getElementById('confirmationMessage');
+
+        // Track which fields have been interacted with
+        const interactedFields = {
+            destination: false,
+            travelDate: false,
+            tickets: false,
+            creditCard: false
+        };
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        travelDateInput.setAttribute('min', today);
+
+        // Credit card formatting with enhanced animation
+        creditCardInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            if (formattedValue.length > 19) formattedValue = formattedValue.substr(0, 19);
+            e.target.value = formattedValue;
+            
+            // Add subtle animation on input
+            e.target.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                e.target.style.transform = 'scale(1)';
+            }, 150);
+        });
+
+        // Enhanced background change with smooth transitions
+        destinationSelect.addEventListener('change', function() {
+            const body = document.body;
+            const confirmButton = document.getElementById('confirmBtn');
+            
+            // Remove existing classes
+            body.className = '';
+            confirmButton.classList.remove('btn-safari', 'btn-train', 'btn-mountain');
+            
+            // Add destination-specific background and button animations
+            if (this.value.includes('Sigiriya')) {
+                body.classList.add('bg-sigiriya');
+                confirmButton.classList.add('btn-mountain');
+            } else if (this.value.includes('Yala')) {
+                body.classList.add('bg-yala');
+                confirmButton.classList.add('btn-safari');
+            } else if (this.value.includes('Train') || this.value.includes('Ella')) {
+                body.classList.add('bg-train');
+                confirmButton.classList.add('btn-train');
+            } else if (this.value.includes('Ella')) {
+                body.classList.add('bg-ella');
+                confirmButton.classList.add('btn-mountain');
+            } else if (this.value.includes('Mirissa')) {
+                body.classList.add('bg-mirissa');
+            }
+            
+            // Add Sri Lankan flag animation to body
+            body.classList.add('flag-animation');
+            setTimeout(() => {
+                body.classList.remove('flag-animation');
+            }, 1500);
+            
+            // Mark destination as interacted
+            interactedFields.destination = true;
+        });
+
+        // Enhanced ripple effect for buttons
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement('span');
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+            circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+            circle.classList.add('ripple');
+
+            const ripple = button.getElementsByClassName('ripple')[0];
+            if (ripple) {
+                ripple.remove();
+            }
+
+            button.appendChild(circle);
+        }
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', createRipple);
+        });
+
+        // Track field interactions with enhanced animations
+        travelDateInput.addEventListener('change', () => {
+            interactedFields.travelDate = true;
+            travelDateInput.style.animation = 'pulse 0.3s ease-out';
+            setTimeout(() => {
+                travelDateInput.style.animation = '';
+            }, 300);
+        });
+
+        ticketsInput.addEventListener('input', () => {
+            interactedFields.tickets = true;
+            ticketsInput.style.animation = 'pulse 0.3s ease-out';
+            setTimeout(() => {
+                ticketsInput.style.animation = '';
+            }, 300);
+        });
+
+        creditCardInput.addEventListener('input', () => {
+            interactedFields.creditCard = true;
+        });
+
+        // Enhanced validation functions
+        function validateField(field, errorElement, validationFn, errorMessage) {
+            const isValid = validationFn();
+            if (!isValid) {
+                field.classList.add('error');
+                errorElement.style.display = 'block';
+                errorElement.textContent = errorMessage;
+                errorElement.style.animation = 'errorShake 0.5s ease-in-out';
+                return false;
+            } else {
+                field.classList.remove('error');
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+
+            // Validate destination
+            isValid &= validateField(
+                destinationSelect,
+                document.getElementById('destinationError'),
+                () => destinationSelect.value !== '',
+                'Please select a destination'
+            );
+
+            // Validate travel date (only if interacted or form is submitting)
+            if (interactedFields.travelDate || form.isSubmitting) {
+                isValid &= validateField(
+                    travelDateInput,
+                    document.getElementById('dateError'),
+                    () => travelDateInput.value !== '' && new Date(travelDateInput.value) >= new Date(today),
+                    'Please select a valid travel date'
+                );
+            }
+
+            // Validate tickets (only if interacted or form is submitting)
+            if (interactedFields.tickets || form.isSubmitting) {
+                isValid &= validateField(
+                    ticketsInput,
+                    document.getElementById('ticketsError'),
+                    () => ticketsInput.value !== '' && parseInt(ticketsInput.value) >= 1,
+                    'Please enter a valid number of tickets (1 or more)'
+                );
+            }
+
+            // Validate credit card (only if interacted or form is submitting)
+            if (interactedFields.creditCard || form.isSubmitting) {
+                const cardNumber = creditCardInput.value.replace(/\s/g, '');
+                isValid &= validateField(
+                    creditCardInput,
+                    document.getElementById('cardError'),
+                    () => cardNumber.length === 16 && /^\d+$/.test(cardNumber),
+                    'Please enter a valid 16-digit credit card number'
+                );
+            }
+
+            return isValid;
+        }
+
+        // Enhanced form submission with multiple animations
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Mark form as submitting to validate all fields
+            form.isSubmitting = true;
+            
+            if (validateForm()) {
+                // Enhanced loading state with Sri Lankan theme
+                confirmBtn.innerHTML = '⏳ Processing... <span class="loading"></span>';
+                confirmBtn.disabled = true;
+                confirmBtn.style.animation = 'pulse 1s ease-in-out infinite';
+
+                // Create flying ticket animation
+                createTicketAnimation();
+
+                // Simulate processing delay
+                setTimeout(() => {
+                    // Format date for display
+                    const date = new Date(travelDateInput.value);
+                    const formattedDate = date.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    // Create enhanced confirmation message
+                    const message = `🎊 Booking confirmed for ${destinationSelect.value} on ${formattedDate} for ${ticketsInput.value} ${ticketsInput.value === '1' ? 'person' : 'people'}! 🎊`;
+                    confirmationMessage.innerHTML = message;
+
+                    // Show confirmation with enhanced animation
+                    confirmation.classList.add('show');
+
+                    // Reset button state
+                    confirmBtn.innerHTML = '✅ Booking Confirmed!';
+                    confirmBtn.style.animation = '';
+                    confirmBtn.disabled = false;
+                    confirmBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+
+                    // Scroll to confirmation with smooth behavior
+                    setTimeout(() => {
+                        confirmation.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 500);
+                    
+                    // Reset submitting flag
+                    form.isSubmitting = false;
+
+                    // Add celebration confetti effect
+                    createConfettiEffect();
+                }, 2000);
+            } else {
+                form.isSubmitting = false;
+            }
+        });
+
+        // Create flying ticket animation
+        function createTicketAnimation() {
+            const ticket = document.createElement('div');
+            ticket.innerHTML = '🎫';
+            ticket.className = 'ticket-animation';
+            ticket.style.left = confirmBtn.offsetLeft + 'px';
+            ticket.style.top = confirmBtn.offsetTop + 'px';
+            document.body.appendChild(ticket);
+
+            setTimeout(() => {
+                ticket.remove();
+            }, 2000);
+        }
+
+        // Create confetti effect
+        function createConfettiEffect() {
+            const confettiElements = ['🎉', '🎊', '✨', '🌟', '💫'];
+            const colors = ['#FF6B35', '#FFD23F', '#2ecc71', '#3498db', '#e74c3c'];
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.innerHTML = confettiElements[Math.floor(Math.random() * confettiElements.length)];
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.top = '-50px';
+                    confetti.style.fontSize = '2rem';
+                    confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.pointerEvents = 'none';
+                    confetti.style.zIndex = '9999';
+                    confetti.style.animation = `confettiFall ${2 + Math.random() * 3}s linear forwards`;
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }, i * 100);
+            }
+        }
+
+        // Add confetti fall animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiFall {
+                0% {
+                    transform: translateY(-50px) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(${window.innerHeight + 100}px) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Enhanced reset form with animation
+        resetBtn.addEventListener('click', function() {
+            // Add reset animation
+            form.style.animation = 'fadeOut 0.3s ease-out';
+            
+            setTimeout(() => {
+                form.reset();
+                confirmation.classList.remove('show');
+                document.body.className = ''; // Remove background classes
+                
+                // Clear all error states
+                const errorElements = document.querySelectorAll('.error');
+                errorElements.forEach(error => error.style.display = 'none');
+                
+                const formControls = document.querySelectorAll('.form-control');
+                formControls.forEach(control => control.classList.remove('error'));
+
+                // Reset date minimum
+                travelDateInput.setAttribute('min', today);
+                
+                // Reset interaction tracking
+                Object.keys(interactedFields).forEach(key => {
+                    interactedFields[key] = false;
+                });
+                
+                form.isSubmitting = false;
+                
+                // Reset button states
+                confirmBtn.innerHTML = '✅ Confirm Booking';
+                confirmBtn.style.background = '';
+                confirmBtn.classList.remove('btn-safari', 'btn-train', 'btn-mountain');
+                
+                // Fade form back in
+                form.style.animation = 'fadeIn 0.3s ease-out';
+                setTimeout(() => {
+                    form.style.animation = '';
+                }, 300);
+            }, 300);
+        });
+
+        // Add fade animations
+        const fadeStyle = document.createElement('style');
+        fadeStyle.textContent = `
+            @keyframes fadeOut {
+                0% { opacity: 1; transform: scale(1); }
+                100% { opacity: 0.3; transform: scale(0.95); }
+            }
+            @keyframes fadeIn {
+                0% { opacity: 0.3; transform: scale(0.95); }
+                100% { opacity: 1; transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(fadeStyle);
+
+        // Real-time validation with enhanced feedback
+        [travelDateInput, ticketsInput, creditCardInput].forEach(field => {
+            field.addEventListener('blur', function() {
+                // Mark field as interacted
+                interactedFields[field.id] = true;
+                validateForm();
+            });
+        });
+
+        // Enhanced interactive effects
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+                this.parentElement.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add keyboard navigation enhancements
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+                const formElements = Array.from(form.querySelectorAll('input, select, button'));
+                const currentIndex = formElements.indexOf(e.target);
+                const nextElement = formElements[currentIndex + 1];
+                if (nextElement) {
+                    nextElement.focus();
+                }
+            }
+        });
+
+        // Initialize page with entrance animation
+        window.addEventListener('load', function() {
+            document.body.style.animation = 'fadeIn 1s ease-out';
+        });
+    </script>
+</body>
+</html>
