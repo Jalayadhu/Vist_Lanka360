@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇱🇰 Sri Lanka Tourist Highlights - Enhanced</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #f0fdf4 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .main-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            color: #374151;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: capitalize;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .filter-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .filter-btn.historical.active { background: #f59e0b; border-color: #f59e0b; }
+        .filter-btn.religious.active { background: #8b5cf6; border-color: #8b5cf6; }
+        .filter-btn.nature.active { background: #10b981; border-color: #10b981; }
+        .filter-btn.beach.active { background: #3b82f6; border-color: #3b82f6; }
+        .filter-btn.adventure.active { background: #ef4444; border-color: #ef4444; }
+
+        .location-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 32px;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .location-btn {
+            padding: 6px 12px;
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #374151;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .location-btn:hover {
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .location-btn.active {
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .location-btn.historical.active { background: #f59e0b; border-color: #f59e0b; }
+        .location-btn.religious.active { background: #8b5cf6; border-color: #8b5cf6; }
+        .location-btn.nature.active { background: #10b981; border-color: #10b981; }
+        .location-btn.beach.active { background: #3b82f6; border-color: #3b82f6; }
+        .location-btn.adventure.active { background: #ef4444; border-color: #ef4444; }
+
+        .map-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out 0.6s both;
+        }
+
+        .map-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: all 1s ease;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .map-image.loaded {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .location-marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 4px solid white;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 20;
+        }
+
+        .location-marker:hover {
+            transform: translate(-50%, -50%) scale(1.25);
+            z-index: 25;
+        }
+
+        .location-marker.active {
+            transform: translate(-50%, -50%) scale(1.5);
+            animation: bounce 0.6s ease;
+            z-index: 30;
+        }
+
+        .location-marker::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0.3;
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        .marker-historical { background: #f59e0b; }
+        .marker-religious { background: #8b5cf6; }
+        .marker-nature { background: #10b981; }
+        .marker-beach { background: #3b82f6; }
+        .marker-adventure { background: #ef4444; }
+
+        .location-info {
+            position: absolute;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            width: 320px;
+            max-width: 90vw;
+            z-index: 40;
+            border-left: 4px solid;
+            animation: slideUp 0.5s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        .location-info.historical { border-left-color: #f59e0b; }
+        .location-info.religious { border-left-color: #8b5cf6; }
+        .location-info.nature { border-left-color: #10b981; }
+        .location-info.beach { border-left-color: #3b82f6; }
+        .location-info.adventure { border-left-color: #ef4444; }
+
+        .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #6b7280;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: #e5e7eb;
+            transform: scale(1.1);
+        }
+
+        .location-info h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 12px;
+            padding-right: 30px;
+            line-height: 1.3;
+        }
+
+        .location-info p {
+            color: #6b7280;
+            margin-bottom: 16px;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .learn-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .learn-more:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 32px;
+            animation: fadeIn 1s ease-out 0.8s both;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .legend-text {
+            font-size: 0.875rem;
+            color: #6b7280;
+            text-transform: capitalize;
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {
+                transform: translate(-50%, -50%) scale(1.5);
+            }
+            40%, 43% {
+                transform: translate(-50%, -50%) scale(1.7);
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(1.6);
+            }
+            90% {
+                transform: translate(-50%, -50%) scale(1.55);
+            }
+        }
+
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            
+            .location-info {
+                width: 280px;
+                padding: 16px;
+            }
+            
+            .filters, .location-controls {
+                gap: 8px;
+            }
+            
+            .filter-btn, .location-btn {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">🇱🇰 Sri Lanka Tourist Highlights</h1>
+            <p class="subtitle">Discover the pearl of the Indian Ocean with its ancient temples, pristine beaches, and diverse wildlife</p>
+        </div>
+        
+        <div class="filters" id="categoryFilters">
+            <button class="filter-btn active" data-category="all">All Locations</button>
+            <button class="filter-btn historical" data-category="historical">Historical</button>
+            <button class="filter-btn religious" data-category="religious">Religious</button>
+            <button class="filter-btn nature" data-category="nature">Nature</button>
+            <button class="filter-btn beach" data-category="beach">Beach</button>
+            <button class="filter-btn adventure" data-category="adventure">Adventure</button>
+        </div>
+        
+        <div class="location-controls" id="locationControls">
+            <!-- Location buttons will be generated by JavaScript -->
+        </div>
+        
+        <div class="map-card">
+            <div class="map-container" id="mapContainer">
+                <img src="https://www.srilanka.org.tr/userfiles/images/tourist-map-of-sri-lanka-img.jpg" 
+                     alt="Sri Lanka Tourist Map" 
+                     class="map-image" 
+                     id="mapImage">
+                <!-- Markers and info boxes will be added by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color marker-historical"></div>
+                <span class="legend-text">Historical</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color marker-religious"></div>
+                <span class="legend-text">Religious</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color marker-nature"></div>
+                <span class="legend-text">Nature</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color marker-beach"></div>
+                <span class="legend-text">Beach</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color marker-adventure"></div>
+                <span class="legend-text">Adventure</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mapImage = document.getElementById('mapImage');
+            const mapContainer = document.getElementById('mapContainer');
+            const categoryFilters = document.getElementById('categoryFilters');
+            const locationControls = document.getElementById('locationControls');
+            
+            let activeLocation = null;
+            let activeCategory = 'all';
+            
+            // Enhanced location data with categories
+            const locations = {
+                sigiriya: {
+                    name: "Sigiriya Rock Fortress",
+                    x: 68, y: 38,
+                    description: "Ancient rock fortress with frescoes and lion's paw entrance. A UNESCO World Heritage site dating back to 5th century.",
+                    link: "https://en.wikipedia.org/wiki/Sigiriya",
+                    category: "historical"
+                },
+                dambulla: {
+                    name: "Dambulla Cave Temple",
+                    x: 65, y: 42,
+                    description: "Golden Temple with 5 caves containing Buddhist statues and paintings dating back to 1st century BCE.",
+                    link: "https://en.wikipedia.org/wiki/Dambulla_cave_temple",
+                    category: "religious"
+                },
+                kandy: {
+                    name: "Temple of the Sacred Tooth Relic",
+                    x: 60, y: 55,
+                    description: "Houses Buddha's tooth relic in Kandy. Important pilgrimage site with daily rituals.",
+                    link: "https://en.wikipedia.org/wiki/Temple_of_the_Tooth",
+                    category: "religious"
+                },
+                train: {
+                    name: "Kandy to Ella Train Route",
+                    x: 55, y: 65,
+                    description: "Scenic train journey through tea plantations, mountains, and waterfalls. One of world's most beautiful train rides.",
+                    link: "https://www.seat61.com/SriLanka.htm#Kandy_to_Nuwara_Eliya_&_Ella_by_train",
+                    category: "adventure"
+                },
+                horton: {
+                    name: "Horton Plains & Adam's Peak",
+                    x: 50, y: 60,
+                    description: "Horton Plains features World's End cliff. Adam's Peak is sacred mountain with 'footprint' shrine.",
+                    link: "https://en.wikipedia.org/wiki/Horton_Plains_National_Park",
+                    category: "nature"
+                },
+                yala: {
+                    name: "Yala/Udawalawe National Parks",
+                    x: 35, y: 75,
+                    description: "Best for safari with leopards, elephants, and diverse wildlife. Udawalawe has elephant transit home.",
+                    link: "https://en.wikipedia.org/wiki/Yala_National_Park",
+                    category: "nature"
+                },
+                galle: {
+                    name: "Galle Fort",
+                    x: 30, y: 85,
+                    description: "17th century Dutch fort with colonial architecture, boutique shops, and ocean views.",
+                    link: "https://en.wikipedia.org/wiki/Galle_Fort",
+                    category: "historical"
+                },
+                mirissa: {
+                    name: "Mirissa Beach & Whale Watching",
+                    x: 32, y: 88,
+                    description: "Best whale watching spot (Nov-Apr). Beautiful beaches with palm trees and relaxed vibe.",
+                    link: "https://www.mirissawhalewatching.com/",
+                    category: "beach"
+                },
+                sinharaja: {
+                    name: "Sinharaja Rain Forest",
+                    x: 40, y: 80,
+                    description: "UNESCO-listed biodiversity hotspot with endemic birds, reptiles, and lush vegetation.",
+                    link: "https://en.wikipedia.org/wiki/Sinharaja_Forest_Reserve",
+                    category: "nature"
+                }
+            };
+
+            // Initialize map
+            function initializeMap() {
+                createLocationButtons();
+                createMarkersAndInfoBoxes();
+                setupEventListeners();
+                
+                // Trigger map loaded animation
+                setTimeout(() => {
+                    mapImage.classList.add('loaded');
+                }, 100);
+            }
+
+            // Create location control buttons
+            function createLocationButtons() {
+                locationControls.innerHTML = '';
+                const filteredLocations = getFilteredLocations();
+                
+                Object.entries(filteredLocations).forEach(([id, location]) => {
+                    const button = document.createElement('button');
+                    button.className = `location-btn ${location.category}`;
+                    button.dataset.location = id;
+                    button.innerHTML = `
+                        <span>📍</span>
+                        ${location.name.split(' ').slice(0, 2).join(' ')}
+                    `;
+                    locationControls.appendChild(button);
+                });
+            }
+
+            // Create markers and info boxes
+            function createMarkersAndInfoBoxes() {
+                // Clear existing markers and info boxes
+                document.querySelectorAll('.location-marker, .location-info').forEach(el => el.remove());
+                
+                const filteredLocations = getFilteredLocations();
+                
+                Object.entries(filteredLocations).forEach(([id, location]) => {
+                    // Create marker
+                    const marker = document.createElement('div');
+                    marker.className = `location-marker marker-${location.category}`;
+                    marker.dataset.location = id;
+                    marker.style.left = `${location.x}%`;
+                    marker.style.top = `${location.y}%`;
+                    
+                    // Create info box
+                    const infoBox = document.createElement('div');
+                    infoBox.className = `location-info ${location.category}`;
+                    infoBox.dataset.location = id;
+                    infoBox.style.display = 'none';
+                    infoBox.innerHTML = `
+                        <button class="close-btn">×</button>
+                        <h3>${location.name}</h3>
+                        <p>${location.description}</p>
+                        <a href="${location.link}" target="_blank" class="learn-more">
+                            Learn more
+                            <span>↗</span>
+                        </a>
+                    `;
+                    
+                    // Position info box
+                    const leftPos = location.x > 50 ? location.x - 25 : location.x + 5;
+                    const topPos = location.y > 50 ? location.y - 15 : location.y + 5;
+                    infoBox.style.left = `${Math.max(5, Math.min(leftPos, 75))}%`;
+                    infoBox.style.top = `${Math.max(5, Math.min(topPos, 80))}%`;
+                    
+                    mapContainer.appendChild(marker);
+                    mapContainer.appendChild(infoBox);
+                });
+            }
+
+            // Get filtered locations based on active category
+            function getFilteredLocations() {
+                if (activeCategory === 'all') {
+                    return locations;
+                }
+                
+                const filtered = {};
+                Object.entries(locations).forEach(([id, location]) => {
+                    if (location.category === activeCategory) {
+                        filtered[id] = location;
+                    }
+                });
+                return filtered;
+            }
+
+            // Setup event listeners
+            function setupEventListeners() {
+                // Category filter buttons
+                categoryFilters.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('filter-btn')) {
+                        const category = e.target.dataset.category;
+                        setActiveCategory(category);
+                    }
+                });
+
+                // Location control buttons
+                locationControls.addEventListener('click', (e) => {
+                    if (e.target.closest('.location-btn')) {
+                        const locationId = e.target.closest('.location-btn').dataset.location;
+                        toggleLocationInfo(locationId);
+                    }
+                });
+
+                // Map markers
+                mapContainer.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('location-marker')) {
+                        const locationId = e.target.dataset.location;
+                        toggleLocationInfo(locationId);
+                    } else if (e.target.classList.contains('close-btn')) {
+                        hideAllLocationInfo();
+                    } else if (!e.target.closest('.location-info')) {
+                        hideAllLocationInfo();
+                    }
+                });
+
+                // Close info boxes when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.map-container') && 
+                        !e.target.closest('.location-btn')) {
+                        hideAllLocationInfo();
+                    }
+                });
+            }
+
+            // Set active category
+            function setActiveCategory(category) {
+                activeCategory = category;
+                
+                // Update filter button states
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.category === category);
+                });
+                
+                // Hide all location info
+                hideAllLocationInfo();
+                
+                // Recreate buttons and markers
+                createLocationButtons();
+                createMarkersAndInfoBoxes();
+            }
+
+            // Toggle location info
+            function toggleLocationInfo(locationId) {
+                const wasActive = activeLocation === locationId;
+                hideAllLocationInfo();
+                
+                if (!wasActive) {
+                    showLocationInfo(locationId);
+                }
+            }
+
+            // Show location info
+            function showLocationInfo(locationId) {
+                activeLocation = locationId;
+                
+                // Show info box
+                const infoBox = document.querySelector(`.location-info[data-location="${locationId}"]`);
+                if (infoBox) {
+                    infoBox.style.display = 'block';
+                }
+                
+                // Activate marker
+                const marker = document.querySelector(`.location-marker[data-location="${locationId}"]`);
+                if (marker) {
+                    marker.classList.add('active');
+                }
+                
+                // Activate button
+                const button = document.querySelector(`.location-btn[data-location="${locationId}"]`);
+                if (button) {
+                    button.classList.add('active');
+                }
+            }
+
+            // Hide all location info
+            function hideAllLocationInfo() {
+                activeLocation = null;
+                
+                document.querySelectorAll('.location-info').forEach(box => {
+                    box.style.display = 'none';
+                });
+                
+                document.querySelectorAll('.location-marker').forEach(marker => {
+                    marker.classList.remove('active');
+                });
+                
+                document.querySelectorAll('.location-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+            }
+
+            // Initialize when map image loads
+            mapImage.addEventListener('load', initializeMap);
+            
+            // Initialize immediately if image is already loaded
+            if (mapImage.complete) {
+                initializeMap();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Lanka Transport Guide - Live Schedules & Routes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            color: #f8f9fa;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+            background: linear-gradient(to right, #ff9a9e 0%, #fad0c4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .header p {
+            color: #e9ecef;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* Sri Lankan Movie-themed Button Animations */
+        .movie-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .movie-btn {
+            position: relative;
+            padding: 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .movie-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+
+        .movie-btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* Aloko Udapadi (Golden Dawn) - Train Button */
+        .train-btn {
+            background: linear-gradient(45deg, #ff6e7f, #bfe9ff);
+        }
+
+        .train-btn:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(255, 110, 127, 0.5);
+        }
+
+        .train-btn::after {
+            content: '🚂';
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            animation: trainMove 3s infinite;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+        }
+
+        /* Gamperaliya (Changing Village) - Bus Button */
+        .bus-btn {
+            background: linear-gradient(45deg, #56ab2f, #a8e063);
+        }
+
+        .bus-btn:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(86, 171, 47, 0.5);
+        }
+
+        .bus-btn::after {
+            content: '🚌';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            font-size: 2.5rem;
+            animation: busMove 3.5s infinite;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+        }
+
+        /* Rekava (Line of Destiny) - Route Planner */
+        .route-btn {
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+        }
+
+        .route-btn:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(255, 117, 140, 0.5);
+        }
+
+        .route-btn::after {
+            content: '🗺️';
+            position: absolute;
+            top: 50%;
+            left: -50px;
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+            animation: mapPulse 2.5s infinite;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+        }
+
+        /* Sandakada Pahana (Moonstone) - Live Updates */
+        .live-btn {
+            background: linear-gradient(45deg, #4776e6, #8e54e9);
+        }
+
+        .live-btn:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(71, 118, 230, 0.5);
+        }
+
+        .live-btn::after {
+            content: '📡';
+            position: absolute;
+            top: 50%;
+            right: -50px;
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+            animation: signalPulse 2s infinite;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+        }
+
+        /* Swiper Container */
+        .swiper {
+            width: 100%;
+            height: 400px;
+            margin-bottom: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+            border: 2px solid rgba(255,255,255,0.15);
+        }
+
+        .swiper-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .slide-content {
+            text-align: center;
+            color: #f8f9fa;
+            padding: 40px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .slide-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #f6d365 0%, #fda085 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #e9ecef;
+        }
+
+        /* Transport Info Cards */
+        .transport-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 30px;
+            color: #f8f9fa;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(30px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .info-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .info-card:hover {
+            transform: translateY(-15px) !important;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .info-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #84fab0 0%, #8fd3f4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-card li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            color: #e9ecef;
+        }
+
+        .info-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #84fab0;
+            font-weight: bold;
+        }
+
+        /* Route Planner Form */
+        .route-planner {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .route-planner.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .route-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 20px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: #e9ecef;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .form-group input, .form-group select {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.15);
+            color: #f8f9fa;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .search-btn {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 117, 140, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.5);
+        }
+
+        .search-btn:active {
+            transform: translateY(1px);
+        }
+
+        .search-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .search-btn:hover::after {
+            transform: translateX(100%);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes trainMove {
+            0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+            25% { transform: translateX(-50%) translateY(-10px) rotate(-5deg); }
+            50% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+            75% { transform: translateX(-50%) translateY(10px) rotate(5deg); }
+        }
+
+        @keyframes busMove {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-30px) translateY(-5px); }
+            50% { transform: translateX(-60px) translateY(0); }
+            75% { transform: translateX(-30px) translateY(5px); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+
+        @keyframes mapPulse {
+            0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); }
+            50% { transform: translateY(-50%) scale(1.2) rotate(10deg); }
+        }
+
+        @keyframes signalPulse {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            25% { transform: translateY(-50%) rotate(15deg); }
+            50% { transform: translateY(-50%) rotate(0deg); }
+            75% { transform: translateY(-50%) rotate(-15deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .route-form {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .movie-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .swiper {
+                height: 350px;
+            }
+            
+            .slide-content h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            color: #e9ecef;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            border-top: 4px solid #84fab0;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+            box-shadow: 0 0 10px rgba(132, 250, 176, 0.3);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 20px;
+            color: #f8f9fa;
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .results h3 {
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #f6d365 0%, #fda085 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Floating animation for decorative elements */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* Scroll progress indicator */
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background: rgba(255,255,255,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #4776e6, #8e54e9);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 999;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll progress indicator -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <!-- Back to top button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🇱🇰 Sri Lanka Transport Guide</h1>
+            <p>Live Schedules • Route Planning • Real-time Updates</p>
+        </div>
+
+        <!-- Sri Lankan Movie-themed Action Buttons -->
+        <div class="movie-buttons">
+            <button class="movie-btn train-btn" onclick="showTrainSchedules()">
+                <i class="fas fa-train"></i> Train Schedules
+                <br><small>Aloko Udapadi Style</small>
+            </button>
+            <button class="movie-btn bus-btn" onclick="showBusSchedules()">
+                <i class="fas fa-bus"></i> Bus Schedules
+                <br><small>Gamperaliya Journey</small>
+            </button>
+            <button class="movie-btn route-btn" onclick="showRoutePlanner()">
+                <i class="fas fa-route"></i> Route Planner
+                <br><small>Rekava Path</small>
+            </button>
+            <button class="movie-btn live-btn" onclick="showLiveUpdates()">
+                <i class="fas fa-satellite-dish"></i> Live Updates
+                <br><small>Sandakada Signal</small>
+            </button>
+        </div>
+
+        <!-- Swiper Carousel -->
+        <div class="swiper transportSwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="slide-content">
+                        <h2>🚂 Sri Lanka Railways</h2>
+                        <p>Experience scenic train journeys from Colombo to Kandy, Ella, and beyond. Check live schedules and book your tickets online.</p>
+                        <button class="search-btn" onclick="openTrainBooking()">Book Train Tickets</button>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="slide-content">
+                        <h2>🚌 SLTB & Private Buses</h2>
+                        <p>Comprehensive bus network covering all major cities and towns. Find the best routes and timings for your journey.</p>
+                        <button class="search-btn" onclick="openBusSchedules()">View Bus Routes</button>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="slide-content">
+                        <h2>🗺️ Smart Route Planning</h2>
+                        <p>Get the most efficient travel routes combining trains, buses, and other transport modes across Sri Lanka.</p>
+                        <button class="search-btn" onclick="openRoutePlanner()">Plan Your Route</button>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        <!-- Route Planner Form -->
+        <div class="route-planner" id="routePlanner">
+            <h2 style="text-align: center; margin-bottom: 30px;">🗺️ Plan Your Journey</h2>
+            <form class="route-form" onsubmit="searchRoute(event)">
+                <div class="form-group">
+                    <label for="from">From</label>
+                    <input type="text" id="from" placeholder="Enter departure city" required>
+                </div>
+                <div class="form-group">
+                    <label for="to">To</label>
+                    <input type="text" id="to" placeholder="Enter destination city" required>
+                </div>
+                <button type="submit" class="search-btn">
+                    <i class="fas fa-search"></i> Search Routes
+                </button>
+            </form>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Finding best routes...</p>
+            </div>
+            
+            <div class="results" id="results"></div>
+        </div>
+
+        <!-- Transport Information Cards -->
+        <div class="transport-info">
+            <div class="info-card">
+                <h3>🚂 Train Services</h3>
+                <ul>
+                    <li>Main Line: Colombo - Kandy - Badulla</li>
+                    <li>Coast Line: Colombo - Galle - Matara</li>
+                    <li>Northern Line: Colombo - Jaffna</li>
+                    <li>Puttalam Line: Colombo - Puttalam</li>
+                    <li>Kelani Valley Line: Colombo - Avissawella</li>
+                </ul>
+                <p style="margin-top: 15px; font-style: italic;">Book online at railway.gov.lk or visit stations</p>
+            </div>
+
+            <div class="info-card">
+                <h3>🚌 Bus Networks</h3>
+                <ul>
+                    <li>SLTB (Sri Lanka Transport Board)</li>
+                    <li>Private Bus Services</li>
+                    <li>Express Highway Buses</li>
+                    <li>Inter-city Air-conditioned Buses</li>
+                    <li>Local City Buses</li>
+                </ul>
+                <p style="margin-top: 15px; font-style: italic;">Real-time tracking available on mobile apps</p>
+            </div>
+
+            <div class="info-card">
+                <h3>📱 Useful Apps & Websites</h3>
+                <ul>
+                    <li>Sri Lanka Railways Official</li>
+                    <li>SLTB Mobile App</li>
+                    <li>PickMe (Ride-hailing)</li>
+                    <li>Uber Sri Lanka</li>
+                    <li>Google Maps (Public Transit)</li>
+                </ul>
+                <p style="margin-top: 15px; font-style: italic;">Download for real-time updates and bookings</p>
+            </div>
+
+            <div class="info-card">
+                <h3>💡 Travel Tips</h3>
+                <ul>
+                    <li>Book train tickets in advance for popular routes</li>
+                    <li>Carry exact change for bus fares</li>
+                    <li>Check weather conditions before travel</li>
+                    <li>Allow extra time during peak hours</li>
+                    <li>Keep emergency contacts handy</li>
+                </ul>
+                <p style="margin-top: 15px; font-style: italic;">Safe travels across beautiful Sri Lanka!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Initialize Swiper
+        const swiper = new Swiper('.transportSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            }
+        });
+
+        // Scroll animations
+        function checkVisibility() {
+            const cards = document.querySelectorAll('.info-card');
+            const routePlanner = document.getElementById('routePlanner');
+            
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    card.classList.add('visible');
+                }
+            });
+            
+            const plannerRect = routePlanner.getBoundingClientRect();
+            if (plannerRect.top < window.innerHeight - 100) {
+                routePlanner.classList.add('visible');
+            }
+        }
+        
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+            
+            // Back to top button visibility
+            if (winScroll > 300) {
+                document.getElementById('backToTop').classList.add('visible');
+            } else {
+                document.getElementById('backToTop').classList.remove('visible');
+            }
+            
+            // Check element visibility for animations
+            checkVisibility();
+        });
+        
+        // Back to top functionality
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Initial check for elements already in view
+        document.addEventListener('DOMContentLoaded', () => {
+            checkVisibility();
+            
+            // Add slight delay to route planner animation
+            setTimeout(() => {
+                document.getElementById('routePlanner').classList.add('visible');
+            }, 300);
+        });
+
+        // Movie-themed button functions
+        function showTrainSchedules() {
+            alert('🚂 Aloko Udapadi (Golden Dawn) Train Schedules\n\nMajor Routes:\n• Colombo - Kandy: Every 2 hours\n• Colombo - Ella: 3 daily services\n• Colombo - Galle: Every hour\n\nVisit: railway.gov.lk for live schedules');
+        }
+
+        function showBusSchedules() {
+            alert('🚌 Gamperaliya (Village Journey) Bus Services\n\nSLTB Services:\n• Colombo - Kandy: Every 30 minutes\n• Colombo - Galle: Every 15 minutes\n• Inter-city Express: Hourly\n\nCheck SLTB mobile app for real-time updates');
+        }
+
+        function showRoutePlanner() {
+            document.querySelector('.route-planner').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function showLiveUpdates() {
+            alert('📡 Sandakada Pahana (Moonstone) Live Updates\n\n• Train delays: Check railway.gov.lk\n• Bus tracking: SLTB app\n• Traffic updates: Google Maps\n• Weather alerts: Follow @meteo_lk\n\nStay connected for real-time information!');
+        }
+
+        // Route search functionality
+        function searchRoute(event) {
+            event.preventDefault();
+            
+            const from = document.getElementById('from').value;
+            const to = document.getElementById('to').value;
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            
+            // Show loading animation
+            loading.style.display = 'block';
+            results.style.display = 'none';
+            
+            // Simulate API call
+            setTimeout(() => {
+                loading.style.display = 'none';
+                results.style.display = 'block';
+                
+                results.innerHTML = `
+                    <h3>🗺️ Best Routes from ${from} to ${to}</h3>
+                    <div style="margin-top: 20px;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                            <h4>🚂 Train Route (Recommended)</h4>
+                            <p><strong>Duration:</strong> 3h 45min | <strong>Cost:</strong> LKR 180-400</p>
+                            <p><strong>Schedule:</strong> 6:00 AM, 10:30 AM, 2:15 PM, 6:45 PM</p>
+                            <button class="search-btn" style="margin-top: 10px;" onclick="bookTrain()">Book Train</button>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                            <h4>🚌 Bus Route</h4>
+                            <p><strong>Duration:</strong> 4h 30min | <strong>Cost:</strong> LKR 120-250</p>
+                            <p><strong>Frequency:</strong> Every 30 minutes from 5:00 AM to 9:00 PM</p>
+                            <button class="search-btn" style="margin-top: 10px;" onclick="trackBus()">Track Bus</button>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                            <h4>🚗 Combined Route</h4>
+                            <p><strong>Duration:</strong> 3h 15min | <strong>Cost:</strong> LKR 300-500</p>
+                            <p><strong>Details:</strong> Train + Bus connection via Kandy</p>
+                            <button class="search-btn" style="margin-top: 10px;" onclick="planCombined()">Plan Journey</button>
+                        </div>
+                    </div>
+                `;
+            }, 2000);
+        }
+
+        // Additional interactive functions
+        function openTrainBooking() {
+            window.open('https://railway.gov.lk', '_blank');
+        }
+
+        function openBusSchedules() {
+            alert('🚌 Bus Schedule Information\n\nFor real-time bus schedules:\n• Download SLTB mobile app\n• Visit bus stations\n• Check Google Maps public transit\n• Call 1919 for information');
+        }
+
+        function openRoutePlanner() {
+            document.querySelector('.route-planner').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function bookTrain() {
+            alert('🚂 Redirecting to Sri Lanka Railways booking system...\n\nTip: Book in advance for popular routes like Colombo-Ella!');
+            window.open('https://railway.gov.lk', '_blank');
+        }
+
+        function trackBus() {
+            alert('🚌 Bus Tracking Options:\n\n• Download SLTB mobile app\n• Use Google Maps live transit\n• Check at bus stations\n• Call bus operators directly');
+        }
+
+        function planCombined() {
+            alert('🗺️ Combined Journey Planning:\n\n1. Take train to major junction\n2. Connect via bus to final destination\n3. Allow 30min buffer for connections\n4. Keep tickets and change ready');
+        }
+
+        // Add click effects to movie buttons
+        document.querySelectorAll('.movie-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>
